@@ -1,6 +1,7 @@
 package seleniumcarritocompras;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -23,10 +24,10 @@ public class SeleniumCarritoComprasTest {
     private WebDriver driver;
     
 @Before
-public void SetUp(){
+public void SetUp() throws Exception{
+    deleteFolder();
     String baseUrl = "http://localhost:8080/CarritoCompras/";
     String chromePath = System.getProperty("user.dir") + "\\drivers\\chromedriver.exe";
-        
     System.setProperty("webdriver.chrome.driver", chromePath);
     driver = new ChromeDriver();
     driver.get(baseUrl);
@@ -46,11 +47,11 @@ public void validarNombreProducto() {
         if(!textoActualproducto.equals(textoEsperadoproducto)) {
             fail("ERROR: Se esperaba el valor Descripcion producto 1");
         }
-        try {
-            takeScreenShot("CP-UE02-1_Validar Nombre Producto_"+timestamp()+".png");// Capture screenshot of current state
-        } catch (Exception ex) {
-            Logger.getLogger(SeleniumCarritoComprasTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    try {
+        takeScreenShot("CP-UE02-1_ValidarNombreProducto_"+timestamp()+".png");// Capture screenshot of current state
+    } catch (Exception ex) {
+        Logger.getLogger(SeleniumCarritoComprasTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     @After
@@ -58,15 +59,21 @@ public void validarNombreProducto() {
         driver.quit();
     }
 
-    private void takeScreenShot(String fname) throws Exception {
+    private void takeScreenShot(String fname) throws IOException {
         File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         String imageFileDir = System.getProperty("user.dir") + "\\screenshots";
+        FileUtils.deleteDirectory(new File(imageFileDir));
         if (imageFileDir == null)
             imageFileDir = System.getProperty("java.io.tmpdir");
         FileUtils.copyFile(scrFile, new File(imageFileDir, fname));
     }
     
     public static String timestamp() {
-        return new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
+        return new SimpleDateFormat("MM-dd-yyyy_HH.mm.ss").format(new Date());
+    }
+    
+    private void deleteFolder() throws Exception {
+        String imageFileDir = System.getProperty("user.dir") + "\\screenshots";
+        FileUtils.deleteDirectory(new File(imageFileDir));
     }
 }
