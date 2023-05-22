@@ -78,6 +78,25 @@ public void validarNombreProducto() {
         fail("ERROR: Se esperaba el valor Descripcion producto 1");
     }
     }
+    
+    @Test
+    public void validarPrecioProducto() {
+    driver.findElement(By.xpath("//a[@href='Controlador?accion=home']")).click();
+    //Obtener precio del producto
+    String precioActualproducto = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/i[1]")).getText();
+    //Variable con valor esperado
+    String precioEsperadoproducto = "20500.0";
+    assertEquals(precioActualproducto, precioEsperadoproducto);
+    try {
+        takeScreenShot("CP-UE05-1_validarPrecioProducto_"+timestamp()+".png");// Capture screenshot of current state
+    } catch (IOException ex) {
+        Logger.getLogger(SeleniumCarritoComprasTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        // TODO review the generated test code and remove the default call to fail.
+    if(!precioActualproducto.equals(precioEsperadoproducto)) {
+        fail("ERROR: Se esperaba el precio producto 20500.0 ");
+    }
+    }
 
     @After
     public void tearDown(){
