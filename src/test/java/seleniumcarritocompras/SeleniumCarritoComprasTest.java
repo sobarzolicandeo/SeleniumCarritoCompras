@@ -99,13 +99,14 @@ public void validarNombreProducto() {
     }
     
     @Test
-    public void validarBotoncarrito() {
+    public void validarBotonCarrito() {
     driver.findElement(By.xpath("//a[@href='Controlador?accion=home']")).click();
     //click carrito
-    String textoActualcarrito = driver.findElement(By.xpath("//*[@id=\"navbarSupportedContent\"]/ul[1]/li[3]/a")).getText();
-    driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[3]/div/a[1]")).click();
+    driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/a[1]")).click();
+    //obtener valor del carrito
+    String textoActualcarrito = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/ul[1]/li[3]/a[1]")).getText();
     //Varable con accion esperado producto en carrito
-    String textoEsperadocarrito = "Carrito de Compras";
+    String textoEsperadocarrito = "1 Carrito de Compras";
     assertEquals(textoActualcarrito, textoEsperadocarrito);
     try {
         takeScreenShot("CP-UE08-1_ValidarBotonCarritoCompras_"+timestamp()+".png");// Capture screenshot of current state
@@ -114,11 +115,26 @@ public void validarNombreProducto() {
     }
         // TODO review the generated test code and remove the default call to fail.
     if(!textoActualcarrito.equals(textoEsperadocarrito)) {
-        fail("ERROR: Se esperaba el precio producto 20500.0 ");
+        fail("ERROR: Se esperaba agregar producto a carrito");
     }
     }
     
-
+    @Test
+    public void validarBotonComprar() {
+    driver.findElement(By.xpath("//a[@href='Controlador?accion=home']")).click();
+    //click boton de compras
+    driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[3]/div/a[2]")).click();
+    //Validar pagina resumen de compra
+    try {
+        takeScreenShot("CP-UE09-1_ValidarBotonComprar_"+timestamp()+".png");// Capture screenshot of current state
+    } catch (IOException ex) {
+        Logger.getLogger(SeleniumCarritoComprasTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    if(!driver.findElement(By.xpath("//div[@class='card-header'][contains(.,'Generar compra')]")).isDisplayed()) {
+        fail("ERROR: Se esperaba el despliegue de la pantalla de resumen compra");
+    }
+    }
+    
     @After
     public void tearDown(){
         if (driver != null){
@@ -139,9 +155,5 @@ public void validarNombreProducto() {
     public static String timestamp() {
         return new SimpleDateFormat("MM-dd-yyyy_HH.mm.ss").format(new Date());
     }
-
-    private void getText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+  
 }
