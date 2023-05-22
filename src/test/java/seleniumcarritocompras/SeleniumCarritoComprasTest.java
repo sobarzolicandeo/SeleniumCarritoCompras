@@ -104,12 +104,18 @@ public void validarNombreProducto() {
     //click carrito
     String textoActualcarrito = driver.findElement(By.xpath("//*[@id=\"navbarSupportedContent\"]/ul[1]/li[3]/a")).getText();
     driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[3]/div/a[1]")).click();
-    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    //obtener contador de carrito
-    
-    //Variable con accion esperado 1 producto en carrito
+    //Varable con accion esperado producto en carrito
     String textoEsperadocarrito = "Carrito de Compras";
     assertEquals(textoActualcarrito, textoEsperadocarrito);
+    try {
+        takeScreenShot("CP-UE08-1_ValidarBotonCarritoCompras_"+timestamp()+".png");// Capture screenshot of current state
+    } catch (IOException ex) {
+        Logger.getLogger(SeleniumCarritoComprasTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        // TODO review the generated test code and remove the default call to fail.
+    if(!textoActualcarrito.equals(textoEsperadocarrito)) {
+        fail("ERROR: Se esperaba el precio producto 20500.0 ");
+    }
     }
     
 
