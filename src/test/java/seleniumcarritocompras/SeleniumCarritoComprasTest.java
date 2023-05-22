@@ -97,6 +97,21 @@ public void validarNombreProducto() {
         fail("ERROR: Se esperaba el precio producto 20500.0 ");
     }
     }
+    
+    @Test
+    public void validarBotoncarrito() {
+    driver.findElement(By.xpath("//a[@href='Controlador?accion=home']")).click();
+    //click carrito
+    String textoActualcarrito = driver.findElement(By.xpath("//*[@id=\"navbarSupportedContent\"]/ul[1]/li[3]/a")).getText();
+    driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[3]/div/a[1]")).click();
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    //obtener contador de carrito
+    
+    //Variable con accion esperado 1 producto en carrito
+    String textoEsperadocarrito = "Carrito de Compras";
+    assertEquals(textoActualcarrito, textoEsperadocarrito);
+    }
+    
 
     @After
     public void tearDown(){
@@ -117,6 +132,10 @@ public void validarNombreProducto() {
     
     public static String timestamp() {
         return new SimpleDateFormat("MM-dd-yyyy_HH.mm.ss").format(new Date());
+    }
+
+    private void getText() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
